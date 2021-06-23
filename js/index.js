@@ -19,6 +19,8 @@
       5. Add a countdown timer - when the time is up, end the quiz, display the score and highlight the correct answers
 *************************** */
 
+// document.getElementById("startBtn").addEventListener("click", displayQuiz);
+
 window.addEventListener('DOMContentLoaded', () => {
   const start = document.querySelector('#start');
   start.addEventListener('click', function (e) {
@@ -44,10 +46,27 @@ window.addEventListener('DOMContentLoaded', () => {
       o: ['Sydney', 'Canberra', 'Melbourne', 'Perth'],
       a: 1,
     },
+    {
+      q: 'Who is NOT an instructor at Generation Australia',
+      o: ['Steve Jobs', 'Lavina Lobo', 'Lisa Ostman', 'Laize Ferraz'],
+      a: 0,
+    },
+    {
+      q: 'Fremantle is an AFL team in Western Australia. What is their nickname',
+      o: ['Bombers', 'Lions', 'Dockers', 'Eagles'],
+      a: 2,
+    },
   ];
 
+  document.getElementById("startBtn").addEventListener("click", displayQuiz);
+  document.getElementById("btnSubmit").addEventListener("click", calculateScore)
+  document.getElementById("btnReset").addEventListener("click", displayQuiz);
+
+
+
+
   // function to Display the quiz questions and answers from the object
-  const displayQuiz = () => {
+  function displayQuiz() {
     const quizWrap = document.querySelector('#quizWrap');
     let quizDisplay = '';
     quizArray.map((quizItem, index) => {
@@ -64,7 +83,7 @@ window.addEventListener('DOMContentLoaded', () => {
   };
 
   // Calculate the score
-  const calculateScore = () => {
+  function calculateScore () {
     let score = 0;
     quizArray.map((quizItem, index) => {
       for (let i = 0; i < 4; i++) {
@@ -72,19 +91,36 @@ window.addEventListener('DOMContentLoaded', () => {
         let li = `li_${index}_${i}`;
         let r = `radio_${index}_${i}`;
         liElement = document.querySelector('#' + li);
+        // console.log('li ', liElement);
         radioElement = document.querySelector('#' + r);
 
-        if (quizItem.a == i) {
+        if (quizItem.a == i && radioElement.checked ) {
           //change background color of li element here
+          liElement.style.backgroundColor = "lightgreen";
+          score = score+1; 
+        } else if (quizItem.a == i) {
+                  liElement.style.backgroundColor = "lightblue";
+        } else if (radioElement.checked) {
+              liElement.style.backgroundColor = "red";
         }
 
-        if (radioElement.checked) {
-          // code for task 1 goes here
-        }
-      }
-    });
+        }         
+          // this.liElement[i].style.backgroundColor = "lightblue"
+        // if (radioElement.checked) {
+        //   // code for task 1 goes here
+        //   score = score+1; 
+        // }
+      } 
+    );
+    alert (`Your Score for the quiz >>>  + ${score}`)
+    return score;
+
   };
 
   // call the displayQuiz function
-  displayQuiz();
+  displayQuiz(); 
+ 
+  calculateScore(qscore);
+ 
+  
 });
